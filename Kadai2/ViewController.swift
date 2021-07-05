@@ -13,13 +13,13 @@ class ViewController: UIViewController {
     @IBOutlet private weak var resultLabel: UILabel!
     @IBOutlet private weak var operatorSegmentedControl: UISegmentedControl!
 
-    enum OperatorEnum: Int {
+    enum Operator: Int {
         case plus
         case minus
         case multiply
         case divide
-        func doCalculate(_ number1: Double, _ number2: Double) -> String {
-            switch  self {
+        func calculate(_ number1: Double, _ number2: Double) -> String {
+            switch self {
             case .plus:
                 return "\(number1 + number2)"
             case .minus:
@@ -39,9 +39,11 @@ class ViewController: UIViewController {
         let number1 = Double(num1TextField.text ?? "") ?? 0
         let number2 = Double(num2TextField.text ?? "") ?? 0
 
-        if let operatorIndex = OperatorEnum(rawValue: operatorSegmentedControl.selectedSegmentIndex) {
-            let resultNum = operatorIndex.doCalculate(number1, number2)
-            resultLabel.text = resultNum
+        guard let operatorIndex = Operator(rawValue: operatorSegmentedControl.selectedSegmentIndex) else {
+            return
         }
+
+        let resultNum = operatorIndex.calculate(number1, number2)
+        resultLabel.text = resultNum
     }
 }
